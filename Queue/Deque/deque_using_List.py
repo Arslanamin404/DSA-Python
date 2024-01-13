@@ -51,11 +51,13 @@ if __name__ == "__main__":
     print("----------------------------------------")
     print(f"Font: {myDeque.get_front()}")
     print(f"Rear: {myDeque.get_rear()}")
+    print(f"Size: {myDeque.size()} elements.")
     print("----------------------------------------")
     
     myDeque.delete_front()
     myDeque.delete_rear()
     print(f"Font: {myDeque.get_front()}")
     print(f"Rear: {myDeque.get_rear()}")
+    print(f"Size: {myDeque.size()} elements.")
     print("----------------------------------------")
     
