@@ -19,7 +19,6 @@ class Deque:
         if self.is_empty():
             self.__front = self.__rear = new_node
         else:
-            # new_node.prev = None
             self.__front.prev = new_node
             new_node.next = self.__front
             self.__front = new_node
@@ -30,7 +29,6 @@ class Deque:
         if self.is_empty():
             self.__front = self.__rear = new_node
         else:
-            # new_node.next = None
             new_node.prev = self.__rear
             self.__rear.next = new_node
             self.__rear = new_node
