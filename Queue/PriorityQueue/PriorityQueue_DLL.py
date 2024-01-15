@@ -26,15 +26,10 @@ class PriorityQueue:
             current = self.__start
             while current.next is not None and current.priority <= new_node.priority:
                 current = current.next
-            if current.prev is not None:
-                new_node.prev = current.prev
-                new_node.next = current
-                current.prev.next = new_node
-                current.prev = new_node
-            else:
-                new_node.next = self.__start
-                self.__start.prev = new_node
-                self.__start = new_node
+            new_node.prev = current.prev
+            new_node.next = current
+            current.prev.next = new_node
+            current.prev = new_node
         self.__count += 1
 
     def pop(self):
