@@ -8,6 +8,7 @@ class Node:
 class BST:
     def __init__(self, root=None):
         self.root = root
+        self.__count = 0
 
     def is_empty(self):
         return self.root == None
@@ -17,6 +18,7 @@ class BST:
             self.root = Node(data)
         else:
             self.__insert(data, self.root)
+        self.__count += 1
 
     # * Insert using recursion
     def __insert(self, data=None, current_node=None):
@@ -82,3 +84,26 @@ class BST:
             self.__r_postOrder(current_node.left)
             self.__r_postOrder(current_node.right)
             self.__result.append(current_node.data)
+
+    # leaf node of left most subtree contains min value
+    def get_min(self):
+        return self.__r_min(self.root)
+
+    def __r_min(self, current_node):
+        if current_node.left:
+            return self.__r_min(current_node.left)
+        else:
+            return current_node.data
+
+    # leaf node of right most subtree contains max value
+    def get_max(self):
+        return self.__r_max(self.root)
+
+    def __r_max(self, current_node):
+        if current_node.right:
+            return self.__r_max(current_node.right)
+        else:
+            return current_node.data
+
+    def get_size(self):
+        return self.__count
