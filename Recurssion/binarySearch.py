@@ -1,5 +1,6 @@
 # Recursive Approach
 # TODO: BINARY SEARCH Algorithm
+# * Note: Array Must be Sorted
 
 def binary_search(arr, target, left, right):
     if left > right:
