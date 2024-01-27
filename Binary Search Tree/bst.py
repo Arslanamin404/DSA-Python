@@ -21,7 +21,7 @@ class BST:
         self.__count += 1
 
     # * Insert using recursion
-    def __insert(self, data=None, current_node=None):
+    def __insert(self, data, current_node):
         if data == current_node.data:
             raise ValueError("Duplicate values not allowed in BST!")
         elif data < current_node.data:
@@ -85,7 +85,7 @@ class BST:
             self.__r_postOrder(current_node.right)
             self.__result.append(current_node.data)
 
-    # leaf node of left most subtree contains min value
+    # * leaf node of left most subtree contains min value
     def get_min(self):
         return self.__r_min(self.root)
 
@@ -95,7 +95,7 @@ class BST:
         else:
             return current_node.data
 
-    # leaf node of right most subtree contains max value
+    # * leaf node of right most subtree contains max value
     def get_max(self):
         return self.__r_max(self.root)
 
@@ -104,6 +104,31 @@ class BST:
             return self.__r_max(current_node.right)
         else:
             return current_node.data
+
+    def delete(self, data):
+        self.__r_delete(self.root, data)
+
+    def __r_delete(self, current_node, data):
+        if current_node is None:
+            return current_node
+
+        # Recursive search for the node to be deleted
+        if data < current_node.data:
+            current_node.left = self.__r_delete(current_node.left, data)
+        elif data > current_node.data:
+            current_node.right = self.__r_delete(current_node.right, data)
+        else:
+            # Node with one child or no child
+            if current_node.left is None:
+                return current_node.right
+            elif current_node.right is None:
+                return current_node.left
+
+            # Node with two children
+            current_node.data = self.__r_min(current_node.right)
+
+        self.__count -= 1
+        return self.__r_delete(current_node.right, current_node.data)
 
     def get_size(self):
         return self.__count
