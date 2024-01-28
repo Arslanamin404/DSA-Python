@@ -126,6 +126,8 @@ class BST:
 
             # Node with two children
             current_node.data = self.__r_min(current_node.right)
+            current_node.right = self.__r_delete(current_node.right, current_node.data)
+
 
         self.__count -= 1
         return self.__r_delete(current_node.right, current_node.data)
