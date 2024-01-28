@@ -8,17 +8,18 @@ class Node:
 class BST:
     def __init__(self, root=None):
         self.root = root
-        self.__count = 0
 
     def is_empty(self):
         return self.root == None
 
     def insert(self, data=None):
-        if self.root is None:
-            self.root = Node(data)
-        else:
-            self.__insert(data, self.root)
-        self.__count += 1
+        try:
+            if self.root is None:
+                self.root = Node(data)
+            else:
+                self.__insert(data, self.root)
+        except Exception as err:
+            print(f'\n >>An Error has occurred "{err}"')
 
     # * Insert using recursion
     def __insert(self, data, current_node):
@@ -109,9 +110,13 @@ class BST:
         self.__r_delete(self.root, data)
 
     def __r_delete(self, current_node, data):
-        if current_node is None:
+        # ! Base Case
+        # Tree is empty or data not found
+        if current_node is None:  
             return current_node
 
+
+        # ! Recursive Case
         # Recursive search for the node to be deleted
         if data < current_node.data:
             current_node.left = self.__r_delete(current_node.left, data)
@@ -128,9 +133,8 @@ class BST:
             current_node.data = self.__r_min(current_node.right)
             current_node.right = self.__r_delete(current_node.right, current_node.data)
 
-
-        self.__count -= 1
-        return self.__r_delete(current_node.right, current_node.data)
+        return current_node
 
     def get_size(self):
-        return self.__count
+        return len(self.inOrder())
+
