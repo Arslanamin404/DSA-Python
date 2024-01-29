@@ -112,9 +112,8 @@ class BST:
     def __r_delete(self, current_node, data):
         # ! Base Case
         # Tree is empty or data not found
-        if current_node is None:  
+        if current_node is None:
             return current_node
-
 
         # ! Recursive Case
         # Recursive search for the node to be deleted
@@ -123,7 +122,10 @@ class BST:
         elif data > current_node.data:
             current_node.right = self.__r_delete(current_node.right, data)
         else:
-            # Node with one child or no child
+            # Node with no child
+            if current_node.left is None and current_node.right is None:
+                return None
+            # Node with one child
             if current_node.left is None:
                 return current_node.right
             elif current_node.right is None:
@@ -137,4 +139,3 @@ class BST:
 
     def get_size(self):
         return len(self.inOrder())
-
