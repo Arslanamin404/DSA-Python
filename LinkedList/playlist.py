@@ -7,8 +7,9 @@ class Song:
 
 
 class Node:
-    def __init__(self, song, next=None):
+    def __init__(self, song, prev=None, next=None):
         self.song = song
+        self.prev = prev
         self.next = next
 
 
@@ -20,21 +21,36 @@ class Playlist:
         new_song = Song(title, artist, duration)
         new_node = Node(new_song)
         if self.start:
+            new_node.prev = self.start.prev
             new_node.next = self.start
-        self.start = new_node
+            self.start.prev.next = new_node
+            self.start.prev = new_node
+            self.start = new_node
+        else:
+            new_node.next = new_node
+            new_node.prev = new_node
+            self.start = new_node
 
-    def paly_song(self):
+    def play_song(self):
         if self.start:
             print(
                 f"\n>> Now Playing: '{self.start.song.title}' by {self.start.song.artist}")
         else:
             print("Playlist is empty!")
 
-    def skip_song(self):
+    def prev_song(self):
+        if self.start:
+            print(f"\n>> Skipping: {self.start.song.title}!")
+            self.start = self.start.prev
+            self.play_song()
+        else:
+            print("No song to skip!")
+
+    def next_song(self):
         if self.start:
             print(f"\n>> Skipping: {self.start.song.title}!")
             self.start = self.start.next
-            self.paly_song()
+            self.play_song()
         else:
             print("No song to skip!")
 
@@ -45,6 +61,8 @@ class Playlist:
             print(f"ARTIST: {current.song.artist}")
             print(f"DURATION: {current.song.duration}\n")
             current = current.next
+            if current == self.start:
+                break
 
 
 def inbuilt_playlist(my_playlist):
@@ -59,12 +77,13 @@ def inbuilt_playlist(my_playlist):
 def menu():
     print("\n---------------------------------------------------")
     print("Welcome to my Song Playlist!\n")
-    print("Please select an action --> [1/2/3/4/5]\n")
+    print("Please select an action --> [1/2/3/4/5/6]\n")
     print("1. Play Song \t\t[1]")
     print("2. Add Song \t\t[2]")
-    print("3. Skip Song \t\t[3]")
-    print("4. Show Playlist \t[4]")
-    print("5. Exit \t\t[5]\n")
+    print("3. Previous Song \t[3]")
+    print("4. Next Song \t\t[4]")
+    print("5. Show Playlist \t[5]")
+    print("6. Exit \t\t[6]\n")
 
 
 if __name__ == "__main__":
@@ -78,7 +97,7 @@ if __name__ == "__main__":
         try:
             choice = int(input("Enter your choice: "))
             if choice == 1:
-                my_playlist.paly_song()
+                my_playlist.play_song()
             elif choice == 2:
                 song_title = input("\nEnter Song Title: ").title()
                 song_artist = input("Enter Song Artist: ").title()
@@ -88,20 +107,22 @@ if __name__ == "__main__":
                 print("Song Added successfully!")
                 print("---------------------------\n\n")
             elif choice == 3:
-                my_playlist.skip_song()
+                my_playlist.prev_song()
             elif choice == 4:
+                my_playlist.next_song()
+            elif choice == 5:
                 print("\n---------------------------")
                 print("\tYour Playlist")
                 print("---------------------------")
                 my_playlist.show_playlist()
                 print("---------------------------\n\n")
                 time.sleep(1)
-            elif choice == 5:
+            elif choice == 6:
                 print("Exiting. . .")
                 time.sleep(1)
                 sys.exit()
             else:
-                raise ValueError("Please enter a valid input [1/2/3/4/5]")
+                raise ValueError("Please enter a valid input [1/2/3/4/5/6]")
 
         except Exception as err:
             print(f"\nSomething unexpected occurred: {str(err)}\n")
