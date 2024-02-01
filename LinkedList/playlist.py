@@ -1,4 +1,7 @@
 # Basic Song playlist using LinkedList
+import time
+import sys
+import os
 class Song:
     def __init__(self, title, artist, duration):
         self.title = title
@@ -56,7 +59,8 @@ class Playlist:
                         temp.next.prev = temp.prev
                         break
                     if temp == self.start:
-                        print(f"\n>>Error: Song '{del_song_title}' not found in the playlist.")
+                        print(
+                            f"\n>>Error: Song '{del_song_title}' not found in the playlist.")
                         return
             print(f"\n>>Song '{del_song_title}' removed from the playlist.")
 
@@ -108,12 +112,7 @@ def menu():
     print("99. Clear Screen\t[99]\n")
 
 
-if __name__ == "__main__":
-    import time
-    import sys
-    import os
-    my_playlist = Playlist()
-
+def main(my_playlist):
     while True:
         menu()
         try:
@@ -121,9 +120,9 @@ if __name__ == "__main__":
             if choice == 1:
                 my_playlist.play_song()
             elif choice == 2:
-                song_title = input("\nEnter Song Title: ").title().split()
-                song_artist = input("Enter Song Artist: ").title().split()
-                song_duration = input("Enter Song Duration (0:00): ").split()
+                song_title = input("\nEnter Song Title: ").title()
+                song_artist = input("Enter Song Artist: ").title()
+                song_duration = input("Enter Song Duration (0:00): ")
                 my_playlist.add_song(song_title, song_artist, song_duration)
                 print("\n---------------------------")
                 print(f"Song '{song_title}' added to playlist successfully!")
@@ -133,7 +132,7 @@ if __name__ == "__main__":
             elif choice == 4:
                 my_playlist.next_song()
             elif choice == 5:
-                title = input("Enter the song title to delete: ").title().strip()
+                title = input("Enter the song title to delete: ").title()
                 my_playlist.remove_song(title)
             elif choice == 6:
                 print("\n---------------------------")
@@ -156,3 +155,8 @@ if __name__ == "__main__":
 
         except Exception as err:
             print(f"\nSomething unexpected occurred: {str(err)}\n")
+
+
+if __name__ == "__main__":
+    my_playlist = Playlist()
+    main(my_playlist)
